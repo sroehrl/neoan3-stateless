@@ -5,7 +5,6 @@
 
 namespace Neoan3\Apps;
 
-use Exception;
 use Neoan3\Core\RouteException;
 
 
@@ -29,7 +28,7 @@ class Stateless {
 
     /**
      * @return mixed
-     * @throws Exception
+     * @throws RouteException
      */
     static function validate() {
         self::isKeySet();
@@ -55,7 +54,7 @@ class Stateless {
      * @param mixed $scope
      *
      * @return mixed
-     * @throws Exception
+     * @throws RouteException
      */
     static function restrict($scope = false) {
         self::isKeySet();
@@ -90,7 +89,7 @@ class Stateless {
      * @param array $payload
      *
      * @return string
-     * @throws Exception
+     *
      */
     static function assign($identifier, $scope, $payload = []) {
         self::isKeySet();
@@ -103,6 +102,8 @@ class Stateless {
 
     /**
      * @param $code
+     *
+     * @throws RouteException
      */
     private static function throwRestricted($code) {
         $msg = 'access denied';
@@ -113,11 +114,12 @@ class Stateless {
     }
 
     /**
-     * @throws Exception
+     * Ensures setup
      */
     private static function isKeySet() {
         if (!self::$_secret) {
-            throw new Exception('Admin: please set valid secret');
+            print('Setup: no secret ket defined for Neoan3\Apps\Stateless');
+            die();
         }
     }
 
