@@ -11,5 +11,11 @@
             "email": "neoan@neoan.us"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Neoan3\\Apps\\": "./"
+        }
+
+    }
 }
