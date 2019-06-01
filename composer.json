@@ -1,0 +1,15 @@
+{
+    "name": "neoan3-apps/stateless",
+    "description": "stateless authentication / verification for neoan3",
+    "require": {
+        "neoan3-apps/jwt": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "neoan",
+            "email": "neoan@neoan.us"
+        }
+    ],
+    "minimum-stability": "dev"
+}

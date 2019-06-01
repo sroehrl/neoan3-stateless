@@ -1,0 +1,124 @@
+<?php
+/* neoan3 Stateless app
+*
+ */
+
+namespace Neoan3\Apps;
+
+use Exception;
+use Neoan3\Core\RouteException;
+
+
+/**
+ * Class Stateless
+ * @package Neoan3\Apps
+ */
+class Stateless {
+
+    /**
+     * @var null
+     */
+    private static $_secret = null;
+
+    /**
+     * @param $secret
+     */
+    static function setSecret($secret) {
+        self::$_secret = $secret;
+    }
+
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    static function validate() {
+        self::isKeySet();
+        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            self::throwRestricted(401);
+        }
+        $auth = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+
+        if (count($auth) !== 2) {
+            self::throwRestricted(401);
+        }
+        $decoded = JWT::decode($auth['1'], self::$_secret);
+
+        if ($decoded['error']) {
+            self::throwRestricted(401);
+        }
+        return $decoded['decoded'];
+    }
+
+    /**
+     * Restricts access and return (if valid) the decoded JWT
+     *
+     * @param mixed $scope
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    static function restrict($scope = false) {
+        self::isKeySet();
+        $decoded = self::validate();
+
+        if ($scope && !isset($decoded['scope'])) {
+
+            self::throwRestricted(403);
+        }
+
+        if ($scope) {
+            if (is_string($scope)) {
+                $scope = [$scope];
+            }
+
+            $allowed = false;
+            foreach ($scope as $access) {
+                if (in_array($access, $decoded['scope'])) {
+                    $allowed = true;
+                }
+            }
+            if (!$allowed) {
+                self::throwRestricted(403);
+            }
+        }
+        return $decoded;
+    }
+
+    /**
+     * @param       $identifier
+     * @param       $scope
+     * @param array $payload
+     *
+     * @return string
+     * @throws Exception
+     */
+    static function assign($identifier, $scope, $payload = []) {
+        self::isKeySet();
+        JWT::identifier($identifier);
+        $scope = is_string($scope) ? [$scope] : $scope;
+        $payload['scope'] = $scope;
+        JWT::payLoad($payload);
+        return JWT::encode(self::$_secret);
+    }
+
+    /**
+     * @param $code
+     */
+    private static function throwRestricted($code) {
+        $msg = 'access denied';
+        if ($code == 401) {
+            $msg = 'unauthorized';
+        }
+        throw new RouteException($msg, $code);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private static function isKeySet() {
+        if (!self::$_secret) {
+            throw new Exception('Admin: please set valid secret');
+        }
+    }
+
+}
