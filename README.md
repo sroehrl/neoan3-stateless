@@ -1,4 +1,4 @@
-# neoan3 statless authentication app
+# neoan3 stateless JWT authentication app
 
 ## Installation 
 
