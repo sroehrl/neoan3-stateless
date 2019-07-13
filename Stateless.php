@@ -40,7 +40,7 @@ class Stateless {
         if (count($auth) !== 2) {
             self::throwRestricted(401);
         }
-        $decoded = JWT::decode($auth['1'], self::$_secret);
+        $decoded = Jwt::decode($auth['1'], self::$_secret);
 
         if ($decoded['error']) {
             self::throwRestricted(401);
@@ -49,7 +49,7 @@ class Stateless {
     }
 
     /**
-     * Restricts access and return (if valid) the decoded JWT
+     * Restricts access and return (if valid) the decoded Jwt
      *
      * @param mixed $scope
      *
@@ -93,11 +93,11 @@ class Stateless {
      */
     static function assign($identifier, $scope, $payload = []) {
         self::isKeySet();
-        JWT::identifier($identifier);
+        Jwt::identifier($identifier);
         $scope = is_string($scope) ? [$scope] : $scope;
         $payload['scope'] = $scope;
         JWT::payLoad($payload);
-        return JWT::encode(self::$_secret);
+        return Jwt::encode(self::$_secret);
     }
 
     /**
