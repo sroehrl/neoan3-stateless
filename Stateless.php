@@ -12,7 +12,8 @@ use Neoan3\Core\RouteException;
  * Class Stateless
  * @package Neoan3\Apps
  */
-class Stateless {
+class Stateless
+{
 
     /**
      * @var null
@@ -22,7 +23,8 @@ class Stateless {
     /**
      * @param $secret
      */
-    static function setSecret($secret) {
+    static function setSecret($secret)
+    {
         self::$_secret = $secret;
     }
 
@@ -30,7 +32,8 @@ class Stateless {
      * @return mixed
      * @throws RouteException
      */
-    static function validate() {
+    static function validate()
+    {
         self::isKeySet();
         if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
             self::throwRestricted(401);
@@ -56,7 +59,8 @@ class Stateless {
      * @return mixed
      * @throws RouteException
      */
-    static function restrict($scope = false) {
+    static function restrict($scope = false)
+    {
         self::isKeySet();
         $decoded = self::validate();
 
@@ -89,9 +93,9 @@ class Stateless {
      * @param array $payload
      *
      * @return string
-     *
      */
-    static function assign($identifier, $scope, $payload = []) {
+    static function assign($identifier, $scope, $payload = [])
+    {
         self::isKeySet();
         Jwt::identifier($identifier);
         $scope = is_string($scope) ? [$scope] : $scope;
@@ -105,7 +109,8 @@ class Stateless {
      *
      * @throws RouteException
      */
-    private static function throwRestricted($code) {
+    private static function throwRestricted($code)
+    {
         $msg = 'access denied';
         if ($code == 401) {
             $msg = 'unauthorized';
@@ -116,7 +121,8 @@ class Stateless {
     /**
      * Ensures setup
      */
-    private static function isKeySet() {
+    private static function isKeySet()
+    {
         if (!self::$_secret) {
             print('Setup: no secret ket defined for Neoan3\Apps\Stateless');
             die();
