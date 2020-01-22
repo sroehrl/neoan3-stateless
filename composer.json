@@ -2,7 +2,7 @@
     "name": "neoan3-apps/stateless",
     "description": "stateless authentication / verification for neoan3",
     "require": {
-        "neoan3-apps/jwt": "dev-master"
+        "neoan3-apps/jwt": "^1"
     },
     "license": "MIT",
     "authors": [
