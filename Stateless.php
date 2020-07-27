@@ -124,7 +124,7 @@ class Stateless
     private static function isKeySet()
     {
         if (!self::$_secret) {
-            print('Setup: no secret ket defined for Neoan3\Apps\Stateless');
+            print('Setup: no secret key defined for Neoan3\Apps\Stateless');
             die();
         }
     }
