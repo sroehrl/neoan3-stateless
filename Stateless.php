@@ -26,6 +26,29 @@ class Stateless
      */
     private static ?string $exception = null;
 
+    private static ?string $_jwt = null;
+
+    static function setAuthorization($jwt)
+    {
+        self::$_jwt = $jwt;
+    }
+
+    static function getAuthorization()
+    {
+        if(self::$_jwt) {
+            return self::$_jwt;
+        }
+        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            self::throwRestricted(401);
+        }
+        $auth = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+
+        if (count($auth) !== 2) {
+            self::throwRestricted(401);
+        }
+        return $auth[1];
+    }
+
     /**
      * @param ?string $exception
      */
@@ -50,15 +73,8 @@ class Stateless
     static function validate()
     {
         self::isKeySet();
-        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            self::throwRestricted(401);
-        }
-        $auth = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
 
-        if (count($auth) !== 2) {
-            self::throwRestricted(401);
-        }
-        $decoded = Jwt::decode($auth['1'], self::$_secret);
+        $decoded = Jwt::decode(self::getAuthorization(), self::$_secret);
 
         if ($decoded['error']) {
             self::throwRestricted(401);

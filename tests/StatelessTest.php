@@ -5,11 +5,11 @@ namespace Neoan3\Apps;
 use Neoan3\Core\MockRouteException;
 use PHPUnit\Framework\TestCase;
 
-require_once 'MockRouteException.php';
+require_once dirname(__DIR__) . '/MockRouteException.php';
 
 class StatelessTest extends TestCase
 {
-
+    private StatelessOOP $instance;
     public static function setUpBeforeClass(): void
     {
         if(!defined('base')){
@@ -21,6 +21,9 @@ class StatelessTest extends TestCase
     {
         Stateless::setSecret('secret');
         Stateless::setCustomException(MockRouteException::class);
+        $this->instance = new StatelessOOP();
+        $this->instance->setSecret('secret');
+        $this->instance->setCustomException(\Neoan3\Core\MockRouteException::class);
     }
 
     private function setAuth($jwt): void
@@ -86,6 +89,33 @@ class StatelessTest extends TestCase
         Stateless::setCustomException(null);
         $this->expectException(\Exception::class);
         Stateless::validate();
+    }
+
+    public function testOOPRestrict()
+    {
+        $this->expectException(\Neoan3\Core\MockRouteException::class);
+        $this->instance->restrict();
+    }
+
+
+
+    public function testOOPSetAuthorization()
+    {
+        $this->instance->setAuthorization($this->instance->assign('id', 'admin'));
+        $jwt = $this->instance->validate();
+        $this->assertSame('id', $jwt['jti']);
+    }
+
+    public function testOOPValidateJwt()
+    {
+        $jwt = $this->instance->validate($this->instance->assign('id', 'admin'));
+        $this->assertSame('id', $jwt['jti']);
+    }
+    public function testOOPConstructor()
+    {
+        $anotherInstance = new StatelessOOP('secret', $this->instance->assign('id', 'admin'));
+        $jwt = $anotherInstance->validate();
+        $this->assertSame('id', $jwt['jti']);
     }
 
 }

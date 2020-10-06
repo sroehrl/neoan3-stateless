@@ -7,7 +7,7 @@
         <exclude>
             <directory>./vendor</directory>
             <directory>./tests</directory>
-            <directory>StatelessTest.php</directory>
+            <directory>./example</directory>
         </exclude>
         <report>
             <clover outputFile="tests/clover.xml"/>
