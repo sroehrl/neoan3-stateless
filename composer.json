@@ -1,6 +1,6 @@
 {
     "name": "neoan3-apps/stateless",
-    "description": "stateless authentication / verification for neoan3",
+    "description": "stateless Json Webtoken (JWT) authentication / verification for PHP",
     "require": {
         "neoan3-apps/jwt": "^1"
     },
