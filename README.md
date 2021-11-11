@@ -66,11 +66,5 @@ Accepts a string or an array. Same as _validate_, but additionally checks if the
 Generates a JWT.
 
 
-## Simple Example
 
-There is a simple example in /example. In order to run it, simply type
-
-`php -S localhost:8080 example/index.php`
-
-after cloning this repo.
 
