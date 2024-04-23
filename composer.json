@@ -2,6 +2,7 @@
     "name": "neoan3-apps/stateless",
     "description": "stateless Json Webtoken (JWT) authentication / verification for PHP",
     "require": {
+        "php": ">=8",
         "neoan3-apps/jwt": "^1"
     },
     "license": "MIT",

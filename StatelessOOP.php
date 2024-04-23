@@ -17,7 +17,7 @@ class StatelessOOP
      * @param string | null $secret
      * @param string | null $jwt
      */
-    public function __construct($secret = null, $jwt = null)
+    public function __construct(string $secret = null, string $jwt = null)
     {
         if($jwt){
             $this->setAuthorization($jwt);
@@ -34,7 +34,7 @@ class StatelessOOP
      * @return string
      * @throws Exception
      */
-    function assign($id, $scope, $payload = [])
+    function assign($id, $scope, array $payload = []): string
     {
         return Stateless::assign($id, $scope, $payload);
     }

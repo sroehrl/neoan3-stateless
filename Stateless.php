@@ -21,6 +21,7 @@ class Stateless
      */
     private static ?string $_secret = null;
 
+    private static ?int $_expirationTime = null;
     /**
      * @var string|null
      */
@@ -28,12 +29,15 @@ class Stateless
 
     private static ?string $_jwt = null;
 
-    static function setAuthorization($jwt)
+    static function setAuthorization($jwt): void
     {
         self::$_jwt = $jwt;
     }
 
-    static function getAuthorization()
+    /**
+     * @throws Exception
+     */
+    static function getAuthorization(): ?string
     {
         if(self::$_jwt) {
             return self::$_jwt;
@@ -52,15 +56,20 @@ class Stateless
     /**
      * @param ?string $exception
      */
-    static function setCustomException(?string $exception)
+    static function setCustomException(?string $exception): void
     {
         self::$exception = $exception;
+    }
+
+    static function setExpiration(int|string|null $expirationTime): void
+    {
+        self::$_expirationTime = $expirationTime;
     }
 
     /**
      * @param $secret
      */
-    static function setSecret($secret)
+    static function setSecret($secret): void
     {
         self::$_secret = $secret;
     }
@@ -70,7 +79,7 @@ class Stateless
      * @return mixed|string
      * @throws Exception
      */
-    static function validate()
+    static function validate(): mixed
     {
         self::isKeySet();
 
@@ -91,7 +100,7 @@ class Stateless
      *
      * @throws Exception
      */
-    static function restrict($scope = false)
+    static function restrict($scope = false): mixed
     {
         self::isKeySet();
         $decoded = self::validate();
@@ -128,9 +137,12 @@ class Stateless
      * @return string
      * @throws Exception
      */
-    static function assign($identifier, $scope, $payload = [])
+    static function assign($identifier, $scope, array $payload = []): string
     {
         self::isKeySet();
+        if(self::$_expirationTime){
+            Jwt::expiresAt(self::$_expirationTime);
+        }
         Jwt::identifier($identifier);
         $scope = is_string($scope) ? [$scope] : $scope;
         $payload['scope'] = $scope;
@@ -144,7 +156,7 @@ class Stateless
      * @param string $msg
      * @throws Exception
      */
-    private static function throwRestricted($code, $msg = 'access denied')
+    private static function throwRestricted($code, string $msg = 'access denied')
     {
         if ($code == 401) {
             $msg = 'unauthorized';
@@ -161,7 +173,7 @@ class Stateless
     /**
      * @throws Exception
      */
-    private static function isKeySet()
+    private static function isKeySet(): void
     {
         if (!self::$_secret) {
             self::throwRestricted(500, 'Setup: no secret key defined for Neoan3\Apps\Stateless');
