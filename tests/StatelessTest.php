@@ -29,7 +29,7 @@ class StatelessTest extends TestCase
     private function setAuth($jwt): void
     {
 
-        $_SERVER['HTTP_AUTHORIZATION'] = 'baerer ' . $jwt ;
+        $_SERVER['HTTP_AUTHORIZATION'] = 'bearer ' . $jwt ;
     }
 
     public function testValidate()
@@ -47,6 +47,16 @@ class StatelessTest extends TestCase
         Stateless::setSecret('secret2');
         $this->expectException(MockRouteException::class);
         Stateless::validate();
+    }
+
+    public function testExpiration()
+    {
+        $exp = time() + 3600;
+        Stateless::setExpiration($exp);
+        $jwt = Stateless::assign('123',['read','write'],['data' =>'payload']);
+        $this->setAuth($jwt);
+        $result = Stateless::validate();
+        $this->assertSame($exp, $result['exp']);
     }
 
 
