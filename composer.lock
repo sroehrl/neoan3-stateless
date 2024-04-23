@@ -4,29 +4,35 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d2a2f45ea363eff323421e57727197e",
+    "content-hash": "0655a290aab87405c3f4b2f0eb9dd7c4",
     "packages": [
         {
             "name": "firebase/php-jwt",
-            "version": "v5.5.1",
+            "version": "v6.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6"
+                "reference": "a49db6f0a5033aef5143295342f1c95521b075ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/83b609028194aa042ea33b5af2d41a7427de80e6",
-                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/a49db6f0a5033aef5143295342f1c95521b075ff",
+                "reference": "a49db6f0a5033aef5143295342f1c95521b075ff",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": "^7.4||^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=4.8 <=9"
+                "guzzlehttp/guzzle": "^6.5||^7.4",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.5",
+                "psr/cache": "^1.0||^2.0",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0"
             },
             "suggest": {
+                "ext-sodium": "Support EdDSA (Ed25519) signatures",
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
             "type": "library",
@@ -59,26 +65,26 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.10.0"
             },
-            "time": "2021-11-08T20:18:51+00:00"
+            "time": "2023-12-01T16:26:39+00:00"
         },
         {
             "name": "neoan3-apps/jwt",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sroehrl/neoan3-jwt.git",
-                "reference": "aacaabfd46bdb209705fa279fd660f5baf18a3ae"
+                "reference": "2b64c73e5c3de0cfd9637c54361a254ba5e921b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sroehrl/neoan3-jwt/zipball/aacaabfd46bdb209705fa279fd660f5baf18a3ae",
-                "reference": "aacaabfd46bdb209705fa279fd660f5baf18a3ae",
+                "url": "https://api.github.com/repos/sroehrl/neoan3-jwt/zipball/2b64c73e5c3de0cfd9637c54361a254ba5e921b9",
+                "reference": "2b64c73e5c3de0cfd9637c54361a254ba5e921b9",
                 "shasum": ""
             },
             "require": {
-                "firebase/php-jwt": "^5.0"
+                "firebase/php-jwt": "^6.10"
             },
             "type": "library",
             "autoload": {
@@ -99,9 +105,9 @@
             "description": "neoan3 wrapper for JSON WEB TOKEN using Firebase",
             "support": {
                 "issues": "https://github.com/sroehrl/neoan3-jwt/issues",
-                "source": "https://github.com/sroehrl/neoan3-jwt/tree/v1.0.0"
+                "source": "https://github.com/sroehrl/neoan3-jwt/tree/v1.0.1"
             },
-            "time": "2020-01-22T17:26:15+00:00"
+            "time": "2024-04-23T22:57:01+00:00"
         }
     ],
     "packages-dev": [
@@ -1851,7 +1857,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=8"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }
