@@ -9,7 +9,7 @@ Easy implementation of JWT authentication & handling in PHP.
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Methods](#methods)
-- [Simple Example](#simple-example)
+
 
 
 ## Installation 
@@ -48,7 +48,7 @@ try{
 
 ### setAuthorization($jwt)
 If this method is not used, _Stateless_ will read the Authorization from the $_SERVER variable "HTTP_AUTHORIZATION"
-and the following format "baerer _token_"
+and the following format "bearer _token_"
 
 ### setCustomException($class)
 Can be used to trigger a custom exception when encountering validation errors.
@@ -61,6 +61,9 @@ Returns the decoded JWT or throws an Exception
 
 ### restrict($scope = [])
 Accepts a string or an array. Same as _validate_, but additionally checks if the right kind of scope is present.
+
+### setExpiration($time | null)
+Accepts strtotime-compatible expression or epoch-stamp. 
 
 ### assign($jti, $scope, $payload = [])
 Generates a JWT.
